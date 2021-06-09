@@ -5,6 +5,8 @@
       |
       <router-link to="/posts">Posts</router-link>
       |
+      <router-link to="/posts/new">New Post</router-link>
+      |
       <router-link to="/signup">Sign Up</router-link>
       |
       <router-link to="/login">Log In</router-link>

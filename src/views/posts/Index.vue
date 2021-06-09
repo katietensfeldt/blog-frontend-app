@@ -8,6 +8,12 @@
   </div>
 </template>
 
+<style>
+img {
+  width: 200px;
+}
+</style>
+
 <script>
 import axios from "axios";
 export default {
