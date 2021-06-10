@@ -3,6 +3,7 @@
     <h2>{{ post.title }}</h2>
     <img :src="post.image" alt="" />
     <p>{{ post.body }}</p>
+    <router-link :to="`/posts/${post.id}/edit`">Edit</router-link>
   </div>
 </template>
 
