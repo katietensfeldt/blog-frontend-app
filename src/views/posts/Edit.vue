@@ -1,6 +1,6 @@
 <template>
   <div class="posts-edit">
-    <form v-on:submit.prevent="createPost()">
+    <form v-on:submit.prevent="editPost()">
       <h1>Edit</h1>
       <ul>
         <li class="text-danger" v-for="error in errors" v-bind:key="error">
@@ -41,7 +41,7 @@ export default {
     });
   },
   methods: {
-    createPost: function () {
+    editPost: function () {
       axios
         .patch(`/posts/${this.editPostParams.id}`, this.editPostParams)
         .then((response) => {
