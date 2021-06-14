@@ -5,13 +5,22 @@
       |
       <router-link to="/posts">Posts</router-link>
       |
-      <router-link to="/posts/new">New Post</router-link>
-      |
-      <router-link to="/signup">Sign Up</router-link>
-      |
-      <router-link to="/login">Log In</router-link>
-      |
-      <router-link to="/logout">Log Out</router-link>
+      <span v-if="isLoggedIn()">
+        <router-link to="/posts/new">New Post</router-link>
+        |
+        <router-link to="/logout">Log Out</router-link>
+      </span>
+      <span v-else-if="!isLoggedIn()">
+        <router-link to="/signup">Sign Up</router-link>
+        |
+        <router-link to="/login">Log In</router-link>
+      </span>
+      <br />
+      <div v-if="flashMessage">
+        {{ flashMessage }}
+        <br />
+        <button v-on:click="flashMessage = ''">Dismiss message</button>
+      </div>
     </div>
     <router-view />
   </div>
@@ -39,3 +48,19 @@
   color: #42b983;
 }
 </style>
+
+<script>
+export default {
+  data: function () {
+    return {
+      flashMessage: "",
+    };
+  },
+  created: function () {},
+  methods: {
+    isLoggedIn: function () {
+      return localStorage.getItem("jwt");
+    },
+  },
+};
+</script>

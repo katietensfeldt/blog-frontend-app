@@ -1,8 +1,10 @@
 <template>
   <div class="posts-show">
     <h2>{{ post.title }}</h2>
+    <p>Published {{ relativeDate(post.created_at) }}</p>
     <img :src="post.image" alt="" />
     <p>{{ post.body }}</p>
+
     <router-link :to="`/posts/${post.id}/edit`">Edit</router-link>
     |
     <button v-on:click="destroyPost()">Delete</button>
@@ -11,6 +13,7 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
 
 export default {
   data: function () {
@@ -32,6 +35,9 @@ export default {
           this.$router.push("/posts");
         });
       }
+    },
+    relativeDate: function (date) {
+      return moment(date).fromNow();
     },
   },
 };

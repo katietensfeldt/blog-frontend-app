@@ -46,6 +46,7 @@ export default {
         .patch(`/posts/${this.editPostParams.id}`, this.editPostParams)
         .then((response) => {
           console.log(response.data);
+          this.$parent.flashMessage = "Successfully edited post";
           this.$router.push(`/posts/${response.data.id}`);
         })
         .catch((error) => {

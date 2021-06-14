@@ -39,8 +39,9 @@ export default {
         .post("/sessions", params)
         .then((response) => {
           axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.jwt;
+          this.$parent.flashMessage = "Succesfully logged in.";
           localStorage.setItem("jwt", response.data.jwt);
-          this.$router.push("/");
+          this.$router.push("/posts");
         })
         .catch((error) => {
           console.log(error.response);
