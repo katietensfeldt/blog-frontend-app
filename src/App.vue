@@ -1,53 +1,55 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-      |
-      <router-link to="/posts">Posts</router-link>
-      |
-      <span v-if="isLoggedIn()">
-        <router-link to="/posts/new">New Post</router-link>
-        |
-        <router-link to="/logout">Log Out</router-link>
-      </span>
-      <span v-else-if="!isLoggedIn()">
-        <router-link to="/signup">Sign Up</router-link>
-        |
-        <router-link to="/login">Log In</router-link>
-      </span>
-      <br />
-      <div v-if="flashMessage">
-        {{ flashMessage }}
-        <br />
-        <button v-on:click="flashMessage = ''">Dismiss message</button>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <router-link class="navbar-brand" to="/posts">Blog Posts</router-link>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <router-link class="nav-link active" to="/">Home</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link active" to="/posts">Posts</router-link>
+            </li>
+            <li v-if="isLoggedIn()" class="nav-item">
+              <router-link class="nav-link active" to="/posts/new">New Post</router-link>
+            </li>
+            <li v-if="isLoggedIn()" class="nav-item">
+              <router-link class="nav-link active" to="/logout">Logout</router-link>
+            </li>
+            <li v-if="!isLoggedIn()" class="nav-item">
+              <router-link class="nav-link active" to="/signup">Sign Up</router-link>
+            </li>
+            <li v-if="!isLoggedIn()" class="nav-item">
+              <router-link class="nav-link active" to="/login">Log in</router-link>
+            </li>
+          </ul>
+        </div>
       </div>
+    </nav>
+    <div class="container">
+      <div id="nav">
+        <div v-if="flashMessage">
+          {{ flashMessage }}
+          <br />
+          <button v-on:click="flashMessage = ''">Dismiss message</button>
+        </div>
+      </div>
+      <router-view />
     </div>
-    <router-view />
   </div>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
 
 <script>
 export default {

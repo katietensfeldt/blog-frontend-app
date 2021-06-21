@@ -1,22 +1,40 @@
 <template>
   <div class="posts-index">
-    <!-- <input type="text" v-model="searchTerm" placeholder="Search" /> -->
-    <div v-for="post in orderBy(posts, 'created_at', -1)" v-bind:key="post.id">
-      <h2>{{ post.title }}</h2>
-      <router-link :to="`/posts/${post.id}`">
-        <img :src="post.image" alt="Post image" />
-        <br />
-      </router-link>
-      <p>Published {{ relativeDate(post.created_at) }}</p>
+    <input type="text" list="titles" v-model="searchTerm" placeholder="Search" />
+    <br />
+    <button v-on:click="sortList('title')">
+      Sort by title
+      <span v-if="sortAttribute === 'title' && sortOrder === 1">^</span>
+      <span v-if="sortAttribute === 'title' && sortOrder === -1">v</span>
+    </button>
+    <button v-on:click="sortList('created_at')">
+      Sort by published date
+      <span v-if="sortAttribute === 'created_at' && sortOrder === 1">^</span>
+      <span v-if="sortAttribute === 'created_at' && sortOrder === -1">v</span>
+    </button>
+    <datalist id="titles">
+      <option v-for="post in posts" v-bind:key="post.id">{{ post.title }}</option>
+    </datalist>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div
+        v-for="post in orderBy(filterBy(posts, searchTerm), sortAttribute, sortOrder)"
+        v-bind:key="post.id"
+        class="col"
+      >
+        <div class="card">
+          <router-link :to="`/posts/${post.id}`">
+            <img :src="post.image" alt="Post image" class="card-img-top" />
+          </router-link>
+          <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text">Published {{ relativeDate(post.created_at) }}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
-
-<style>
-img {
-  width: 200px;
-}
-</style>
 
 <script>
 import axios from "axios";
@@ -29,6 +47,8 @@ export default {
     return {
       posts: [],
       searchTerm: "",
+      sortAttribute: "title",
+      sortOrder: 1,
     };
   },
   created: function () {
@@ -41,8 +61,16 @@ export default {
     relativeDate: function (date) {
       return moment(date).fromNow();
     },
-    filterList: function () {
-      this.filterBy(this.posts, this.searchTerm, "title");
+    sortList: function (type) {
+      if (this.sortAttribute === type) {
+        this.sortOrder = this.sortOrder * -1;
+      } else {
+        this.sortOrder = 1;
+        this.sortAttribute = type;
+      }
+    },
+    clicked: function () {
+      return true;
     },
   },
 };
